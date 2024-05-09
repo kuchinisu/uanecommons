@@ -21,9 +21,22 @@ class Img(models.Model):
     img = models.ImageField(upload_to=path_dir)
     autor = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='image_autor')
     categoria = models.ForeignKey(CategoriaImg, on_delete=models.CASCADE, related_name='images')
+    categorias_secundarias = models.ManyToManyField(CategoriaImg, related_name='imagenes_secundarios', blank=True)    
+
     destacado = models.BooleanField(default=False)
     publico = models.BooleanField(default=True)
     licencia = models.CharField(default='CC BY', choices=LICENCIA_OPCIONES, max_length=50)
     fecha_de_suibido = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return f'{self.nombre} - {self.autor.nombre}:{self.autor.matricula}'
+    def get_img(self):
+        if self.img:
+            return self.img.url
+        return ''
+    def get_autor(self):
+        if self.autor:
+            return self.autor.nombre
+        return ''
+    
     

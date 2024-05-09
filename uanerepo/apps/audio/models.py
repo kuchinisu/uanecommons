@@ -24,10 +24,13 @@ class Audio(models.Model):
     archivo_audio = models.FileField(upload_to=path_dir)
     autor = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     categoria = models.ForeignKey(CategoriaAudio, on_delete=models.CASCADE)
+    categorias_secundarias = models.ManyToManyField(CategoriaAudio, related_name='audios_secundarios', blank=True)
+
     destacado = models.BooleanField(default=False)
     publico = models.BooleanField(default=True)
     licencia = models.CharField(default='CC BY', choices=LICENCIA_OPCIONES, max_length=50)
     fecha_de_suibido = models.DateTimeField(default=timezone.now)
+
     def get_audio(self):
         if self.archivo_audio:
             return str(self.archivo_audio.url)

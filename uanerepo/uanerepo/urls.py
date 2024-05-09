@@ -13,6 +13,8 @@ urlpatterns = [
     path('auth/', include('djoser.social.urls')),
 
     path('admin/', admin.site.urls),
+
+    path('img/', include('apps.img.urls'))
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [re_path(r'^.*',

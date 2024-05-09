@@ -22,6 +22,7 @@ class Doc(models.Model):
     doc = models.FileField(upload_to=path_dir)
     autor = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='doc_autor')
     categoria = models.ForeignKey(CategoriaDoc, on_delete=models.CASCADE, related_name='docs')
+    categorias_secundarias = models.ManyToManyField(CategoriaDoc, related_name='documentos_secundarios', blank=True)    
     destacado = models.BooleanField(default=False)
     publico = models.BooleanField(default=True)
     licencia = models.CharField(default='CC BY', choices=LICENCIA_OPCIONES, max_length=50)

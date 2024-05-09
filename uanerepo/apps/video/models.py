@@ -23,7 +23,22 @@ class Video(models.Model):
     video = models.FileField(upload_to=path_dir)
     autor = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='video_autor')
     categoria = models.ForeignKey(CategoriaVideo, on_delete=models.CASCADE)
+    categorias_secundarias = models.ManyToManyField(CategoriaVideo, related_name='videos_secundarios', blank=True)    
+    
     destacado = models.BooleanField(default=False)
     publico = models.BooleanField(default=True)
     licencia = models.CharField(default='CC BY', choices=LICENCIA_OPCIONES, max_length=50)
     fecha_de_suibido = models.DateTimeField(default=timezone.now)
+
+    def get_video(self):
+        if self.video:
+            return self.video.url
+        return ''
+    
+    def get_autor(self):
+        if self.autor:
+            return self.autor.nombre
+        return ''
+    def get_categoria(self):
+        if self.categoria:
+            return self.categoria.nombre
