@@ -14,10 +14,12 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('img/', include('apps.img.urls'))
+    path('img/', include('apps.img.urls')),
+    path('doc/', include('apps.doc.urls')),
+    path('articulos/', include('apps.articulos.urls')),
+    path('audio/', include('apps.audio.urls')),
+    
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [re_path(r'^.*',
                         TemplateView.as_view(template_name='index.html'))]
-
-

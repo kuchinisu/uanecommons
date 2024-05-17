@@ -8,4 +8,4 @@ LICENCIA_OPCIONES = [
         ('CC0', 'No Derechos Reservados'),
         ('PD', 'Dominio Público'),
         ('GFDL', 'Licencia de Documentación Libre GNU'),
-    ]
+    ] 

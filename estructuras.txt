@@ -1,0 +1,6 @@
+pagina de subir archivo
+
+/pagina
+-/cabeza
+-/formulario
+-/ayuda

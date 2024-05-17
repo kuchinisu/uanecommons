@@ -17,4 +17,5 @@ class AudioSerializer(serializers.ModelSerializer):
             'destacado',
             'publico',
             'licencia',
+            'slug',
         ]

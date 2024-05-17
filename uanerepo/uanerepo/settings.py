@@ -20,11 +20,14 @@ ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +40,7 @@ INSTALLED_APPS = [
     'apps.img.apps.ImgConfig',
     'apps.video.apps.VideoConfig',
     'apps.user.apps.UserConfig',
+    'apps.articulos.apps.ArticulosConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +61,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'uanerepo.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,6 +77,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'uanerepo.wsgi.application'
 
@@ -119,15 +125,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-CORS_ORIGINS_WHITELIST = [
+CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
 ]
 
-CSFR_TRUSTED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
-
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
 ]
 
 
@@ -169,6 +178,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 12
 }
+
+
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
@@ -217,6 +228,10 @@ DJOSER = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.UserAccount'
+
+
+
+#EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'

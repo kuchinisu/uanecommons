@@ -18,8 +18,6 @@ import {
     LOGOUT,
  } from './types'
 
-
-
 export const signup = (email, nombre,  password, re_password) => async dispatch => {
     dispatch({
         type: SET_AUTH_LOADING

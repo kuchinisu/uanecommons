@@ -36,7 +36,16 @@ function NavbarP ({isAuthenticated, user, logout}) {
               <li><a onClick={logoutHandler}>Logout</a></li>
             </ul>
           </div>
-    
+          <div className="badge">default</div>
+          <div className="badge badge-neutral">neutral</div>
+
+          <Link to={'/subir_archivo'}>
+            <div className="badge badge-primary">subir</div>
+          </Link>
+          
+          <div className="badge badge-secondary">secondary</div>
+          <div className="badge badge-accent">accent</div>
+          <div className="badge badge-ghost">ghost</div>
             </div>
           ):(
             <div>

@@ -29,6 +29,11 @@ class Video(models.Model):
     publico = models.BooleanField(default=True)
     licencia = models.CharField(default='CC BY', choices=LICENCIA_OPCIONES, max_length=50)
     fecha_de_suibido = models.DateTimeField(default=timezone.now)
+    slug = models.SlugField(default='1', unique=True)
+    aclaracion_de_licencia = models.TextField(blank=True)
+
+    def __str__(self):
+        return f'{self.nombre}-{self.slug}, {self.autor.nombre}'
 
     def get_video(self):
         if self.video:
