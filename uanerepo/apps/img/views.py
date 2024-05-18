@@ -32,6 +32,23 @@ class ImgDestacada(APIView):
 
         return paginator.get_paginated_response({'imagen':serializer.data})
     
+class ImagenPorCategoria(APIView):
+    def get(self, request, categoria, format=None):
+        if Img.objects.all():
+            categoriaC = get_object_or_404(CategoriaImg ,nombre=categoria)
+            imagen = Img.objects.filter(categoria=categoriaC)
+            if imagen.exists():
+                paginator = SmallSetPagination()
+                results = paginator.paginate_queryset(imagen, request)
+
+                serializer = ImgSerializer(results, many=True)
+
+                return paginator.get_paginated_response({'por_categoria':serializer.data})
+            else:
+                return Response({"error":"la imagen no existe o fe eliminada"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"error":"no existen imagenes en la base de datos"}, status=status.HTTP_404_NOT_FOUND)
+
 class ImagenSlug(APIView):
     def get(self, request, slug, format=None):
         if Img.objects.all():

@@ -14,7 +14,7 @@ import Documentos from "./containers/pages/Documentos";
 import Documento from "./containers/pages/Documento";
 import Audios from "./containers/pages/Audios";
 import Audio from "./containers/pages/Audio";
-
+import PorCategoria from "./containers/pages/PorCategoria";
 
 
 function App() {
@@ -39,6 +39,8 @@ function App() {
           <Route path="/imagenes" element={<Imagenes/>}/>
           <Route path="/documentos" element={<Documentos/>}/>
           <Route path="/audios" element={<Audios/>}/>
+
+          <Route path="/por_categoria/:api/:categoria" element={<PorCategoria/>}/>
           
         </Routes>
       </Router>
