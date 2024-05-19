@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const SideBar = () => {
     return (
         
-        <div className="bg-base-300">
+        <div className="bg-base-300 h-full">
             <div className="flex flex-col w-1/3 p-3 m-1 shadow-md rounded-md">
                 <div className="flex text-sm flex-col w-full items-center">
                     {/* Row-1 wideLab TeamPlan text*/}
@@ -13,10 +13,14 @@ export const SideBar = () => {
                         <div className="rounded-md flex">
                         <div className="flex items-center gap-2 flex-row">
                         <div className="rounded-md flex w-[2.5rem] h-[2.5rem]">
-                        <img
-                            src={`http://127.0.0.1:8000/}`}
-                            className="object-cover object-center rounded-md"
-                        />
+                        <Link to={'/'}>
+                            <img
+                                src={`${process.env.REACT_APP_API_URL}`}
+                                className="object-cover object-center rounded-md"
+                            />
+                        </Link>
+                        
+
                         </div>
                         <div>
                         </div>

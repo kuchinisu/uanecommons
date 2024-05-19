@@ -28,7 +28,6 @@ function ListaDeDocumentos({lista_de_documentos}) {
                                         {documento.nombre}
                                     </div>
                                 </Link>
-                                
                         </div>
                     </div>
                     )}

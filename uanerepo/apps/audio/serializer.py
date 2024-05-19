@@ -1,6 +1,14 @@
 from rest_framework import serializers
-from .models import Audio
+from .models import Audio, CategoriaAudio
 
+class CategoriaAudioSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CategoriaAudio
+        fields = [
+            'nombre',
+            
+        ]
 class AudioSerializer(serializers.ModelSerializer):
     archivo_audio = serializers.CharField(source='get_audio')
     autor = serializers.CharField(source='get_autor')

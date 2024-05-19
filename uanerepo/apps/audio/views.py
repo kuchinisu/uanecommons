@@ -5,8 +5,35 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Audio, CategoriaAudio
-from .serializer import AudioSerializer
+from .serializer import AudioSerializer, CategoriaAudioSerializer
 from apps.utils.paginator import LargeSetPagination
+
+class CategoriasV(APIView):
+    def get(self, request, format=None):
+        categorias = CategoriaAudio.objects.all()
+
+        if not categorias.exists():
+            return Response({"error":"no existen categorias en la base de datos"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            paginator = LargeSetPagination()
+            results = paginator.paginate_queryset(categorias, request)
+            serializer = CategoriaAudioSerializer(results, many=True)
+
+            return paginator.get_paginated_response({"categorias":serializer.data})
+
+class AudioPorCategoria(APIView):
+    def get(self, request, categoria, format=None):
+        categoriaC = get_object_or_404(CategoriaAudio, nombre = categoria)
+        audio = Audio.objects.filter(categoria=categoriaC)
+
+        if not audio.exists():
+            return Response({"error":f"no existen audios de las categoria {categoria}"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            paginator = LargeSetPagination()
+            results = paginator.paginate_queryset(audio, request)
+            serializer = AudioSerializer(results, many=True)
+
+            return paginator.get_paginated_response({"por_categoria":serializer.data})
 
 class AudioSlug(APIView):
     def get(self, request, slug, format=None):

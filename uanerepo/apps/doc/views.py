@@ -7,6 +7,22 @@ from .models import Doc, CategoriaDoc
 from .serializer import DocSerializer, DocCategoriaSerializer
 from apps.utils.paginator import LargeSetPagination, SmallSetPagination
 
+class DocumentoPorCategoria(APIView):
+    def get(self, request, categoria, format=None):
+        categoriaC = get_object_or_404(CategoriaDoc, nombre = categoria)
+
+        documentos = Doc.objects.filter(categoria = categoriaC)
+
+        if not documentos.exists():
+            return Response({"error":f"no existen documentos en la categoria {categoria}"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            paginator = SmallSetPagination()
+            results = paginator.paginate_queryset(documentos, request)
+
+            serializer = DocSerializer(results, many=True)
+
+            return paginator.get_paginated_response({"por_categoria":serializer.data})
+        
 class DocumentoSV(APIView):
     def get(self, request, slug, format=None):
         documentos = Doc.objects.filter(slug=str(slug))

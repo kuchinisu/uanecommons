@@ -18,7 +18,7 @@ const Layout = (props) => {
             <ToastContainer autoclose={5000}/>
             <div className='flex'> 
 
-                <div> 
+                <div className='bg-base-300'> 
                     <SideBar/>
                 </div>
                 

@@ -5,7 +5,9 @@ import { get_documento_slug } from '../../redux/actions/documentos';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import Layout from '../../components/layout/Layout';
-import { Licencias } from '../../components/display/Licencias';
+import { Tabla } from '../../components/display/Tabla';
+import { LicenciaCard } from '../../components/display/LicenciaCard';
+import { descargarDatos } from '../../components/acciones/descargas/DescargarDatos';
 
 function Documento() {
     const { slug } = useParams();
@@ -16,91 +18,51 @@ function Documento() {
         dispatch(get_documento_slug(slug));
     }, [dispatch, slug]);
 
+    const descargarPDF = (urlpdf, nombre) => {
+        fetch(`${process.env.REACT_APP_API_URL}${urlpdf}`)
+            .then(response => response.blob())
+            .then(pdfBlob => {
+                const url = window.URL.createObjectURL(pdfBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${nombre}.pdf`; 
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+            )
+            .catch(error => {
+                console.error('Error al descargar el PDF:', error);
+            }
+        );
+    };
+    
+
     return (
         <Layout>
             {doc ? (
                 <div>
                     {doc.map((doc, index) => (
                         <div className='m-5'>   
-                            <div key={index} style={{ height: '600px' }}>
-                                <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-                                    <Viewer fileUrl={`${process.env.REACT_APP_API_URL}${doc.doc}`} />
-                                </Worker>
+
+                            <div className='bg-info-content p-5'>
+                                <div className='flex justify-end'>
+                                    <img className='m-2 btn btn-warning' onClick={()=>descargarPDF(doc.doc, doc.nombre)} src={`${process.env.REACT_APP_API_URL}/static/icon/descarga-de-archivos.png`}></img>
+                                </div>
+                                <div key={index} className="pdf-container bg-neutral" style={{height: '700px'}}>
+                                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
+                                        <Viewer fileUrl={`${process.env.REACT_APP_API_URL}${doc.doc}`} />
+                                    </Worker>
+                                </div>
                             </div>
+                            
+                            
                             <div className='divider'></div>
                             <div>
-                            
-                            <table className="table-auto border-collapse w-full rows">
-                                        <tbody>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700 bg-careers">Nombre:</td>
-                                                <td className="px-4 py-2">{doc.nombre}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Etiqueta:</td>
-                                                <td className="px-4 py-2">{doc.subtitulo}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Descripción:</td>
-                                                <td className="px-4 py-2">{doc.descripcion}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Autor:</td>
-                                                <td className="px-4 py-2">{doc.autor}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Categoría:</td>
-                                                <td className="px-4 py-2">{doc.categoria}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Destacado:</td>
-                                                <td className="px-4 py-2">{doc.destacado ? "Sí" : "No"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Público:</td>
-                                                <td className="px-4 py-2">{doc.publico ? "Sí" : "No"}</td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Licencia:</td>
-                                                <td className="px-4 py-2">{doc.licencia}</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Fecha de Subida:</td>
-                                                <td className="px-4 py-2">{doc.fecha_de_suibido}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="px-4 py-2 font-semibold text-gray-700">Slug:</td>
-                                                <td className="px-4 py-2">{doc.slug}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <Tabla elemento={doc}/>
+                                <div className='btn m-5' onClick={()=>descargarDatos('doc', doc)}>Descargar datos</div>
                             </div>
-                            <div className="p-4 bg-gray-100 rounded-lg shadow-md mt-4">
-                        <h2 className="font-serif text-2xl mb-2">Licencia</h2>
-                        <div className="divider mb-4"></div>
-                        <div className="border border-yellow-400 p-4 rounded-lg bg-white">
-                            {doc.licencia === " " || doc.licencia === "" ? (
-                                <div className="space-y-2">
-                                    <p className="font-semibold">Eres libre de:</p>
-                                    <ul className="list-disc list-inside ml-4">
-                                        <li>Compartir</li>
-                                        <li>Mezclar</li>
-                                    </ul>
-                                    <p className="font-semibold mt-2">Bajo las siguientes condiciones:</p>
-                                    <ul className="list-disc list-inside ml-4">
-                                        <li>Atribución</li>
-                                        <li>Compartir bajo la misma licencia</li>
-                                    </ul>
-                                </div>
-                            ) : (
-                                <div className="space-y-2">
-                                    {Licencias(doc.licencia)}
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                            <LicenciaCard elemento={doc}/>
+                            
                         </div>
                     ))}
 

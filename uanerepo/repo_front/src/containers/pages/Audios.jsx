@@ -8,9 +8,12 @@ function Audios() {
         <>
             <div>
                 <Layout>
-                    <Cabeza/>
-                    <Categorias/>
-                    <AudiosLista/>
+                    <div className="m-5">
+                        <Cabeza/>
+                        <Categorias/>
+                        <AudiosLista/>
+                    </div>
+                    
                 </Layout>
             </div>
         </>

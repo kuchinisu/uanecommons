@@ -10,7 +10,6 @@ function AudiosLista ({lista_de_audios}) {
     }, [dispatch])
     return(
         <div>
-            
             {lista_de_audios ? (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-1 justify-center">
                     {lista_de_audios.map((audio, index)=>
